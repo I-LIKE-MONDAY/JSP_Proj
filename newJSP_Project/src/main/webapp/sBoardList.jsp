@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="com.mysql.cj.xdevapi.Statement" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,7 @@
 
 <%
     Connection conn = null;
-    Statement stmt = null;
+    java.sql.Statement stmt = null;
     ResultSet rs = null;
 
     String query = "SELECT idx, title, user_id, create_dt, hit_cnt FROM s_Board ";
@@ -57,7 +58,7 @@
 
                 <tr>
                     <td><%=idx%></td>
-                    <td><a class="text-decoreation-none" href="sBoardDetail.jsp?idx=<%=idx%>"><%=title%></a></td>
+                    <td><a class="text-decoration-none" href="sBoardDetail.jsp?idx=<%=idx%>"><%=title%></a></td>
                     <td><%=userId%></td>
                     <td><%=createDt%></td>
                     <td><%=hitCnt%></td>

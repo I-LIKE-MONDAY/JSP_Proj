@@ -33,9 +33,11 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.servlet/jstl
     implementation 'javax.servlet:jstl:1.2'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation 'mysql:mysql-connector-java:8.0.31'
+    implementation 'com.mysql:mysql-connector-j:8.0.31'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation 'com.google.code.gson:gson:2.10'
+
+
 }
 
 test {
