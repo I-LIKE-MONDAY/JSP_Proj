@@ -31,10 +31,10 @@
 %>
 <!DOCTYPE html>
 <html>
-<header class="container mt-3 bg-light">
+<header class="bg-light">
   <div class="container">
     <ul class="list-unstyled list-group list-group-horizontal justify-content-end">
-      <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="join.jsp">로그인</a></li>
+      <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="login.jsp">로그인</a></li>
       <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="join.jsp">회원가입</a></li>
       <li class="me-3 mt-4"><a class="text-decoration-none text-black-50" href="join.jsp">마이페이지</a></li>
     </ul>

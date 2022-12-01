@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="com.mysql.cj.xdevapi.Statement" %>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,27 +23,23 @@
     java.sql.Statement stmt = null;
     ResultSet rs = null;
 
-    String query = "SELECT idx, title, user_id, create_dt, hit_cnt FROM s_Board ";
+    String query = "SELECT board_idx, stay_name, customer_nickname, stay_cost, stay_option, board_create_dt, hit_cnt FROM board ";
     query += "WHERE deleted_yn = 'N' ";
-    query += "ORDER BY idx DESC ";
-
-
+    query += "ORDER BY board_idx DESC ";
 %>
 <main class="container mt-5">
+    <div class="d-flex justify-content-end">
+        <a href="sBoardWrite.jsp" class="btn btn-secondary">글쓰기</a>
+    </div>
     <div class="row">
         <div class="col-sm">
-            <table class="table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>글번호</th>
-                    <th>글제목</th>
-                    <th>글쓴이</th>
-                    <th>등록시간</th>
-                    <th>조회수</th>
-                </tr>
-                </thead>
-                <tbody>
-
+            <table class="table">
+                <colgroup>
+                    <col style="width: 30px" class="mb-5">
+                    <col style="width: 130px">
+                    <col style="width: 30px">
+                    <col style="width: 170px">
+                </colgroup>
                 <%
                     try {
                         conn = DriverManager.getConnection(url, uid, upw);
@@ -48,22 +47,32 @@
                         rs = stmt.executeQuery(query);
 
                         while (rs.next()) {
-                            int idx = rs.getInt("idx");
-                            String title = rs.getString("title");
-                            String userId = rs.getString("user_id");
-                            String createDt = rs.getString("create_dt");
+                            int boardIdx = rs.getInt("board_idx");
+                            String stayName = rs.getString("stay_name");
+                            String customerNickname = rs.getString("customer_nickname");
+                            int stayCost = rs.getInt("stay_cost");
+                            String stayOption = rs.getString("stay_option");
+                            String boardCreateDt = rs.getString("board_create_dt");
                             int hitCnt = rs.getInt("hit_cnt");
 
                 %>
-
-                <tr>
-                    <td><%=idx%></td>
-                    <td><a class="text-decoration-none" href="sBoardDetail.jsp?idx=<%=idx%>"><%=title%></a></td>
-                    <td><%=userId%></td>
-                    <td><%=createDt%></td>
-                    <td><%=hitCnt%></td>
+                <thead>
+                <tr class="text-center">
+                    <td rowspan="4"><%=boardIdx%></td>
+                    <td rowspan="4"><a href="sBoardDetail.jsp?idx=<%=boardIdx%>"><img src="images/logo.png" width="220" height="220"></a></td>
+                    <td colspan="2"><a class="text-decoration-none text-black" href="sBoardDetail.jsp?idx=<%=boardIdx%>"><h2><%=stayName%></h2></a></td>
                 </tr>
-
+                <tr>
+                    <td colspan="2">1박 : <%=stayCost%>원</td>
+                </tr>
+                <tr>
+                    <td colspan="2">제공 옵션 : <%=stayOption%></td>
+                </tr>
+                <tr>
+                    <td>조회수 : <%=hitCnt%></td>
+                    <td class="text-end"><%=boardCreateDt%></td>
+                </tr>
+                </thead>
                 <%
                         }
                     }
@@ -82,14 +91,37 @@
                         }
                     }
                 %>
-                </tbody>
             </table>
-            <div class="d-flex justify-content-end">
-                <a href="sBoardWrite.jsp" class="btn btn-primary">글쓰기</a>
-            </div>
         </div>
-    </div>
+        <div>
+            <ul class="pagination pagination-lg justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">&laquo;</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">&raquo;</a>
+                </li>
+            </ul>
+        </div>
 
+
+
+    </div>
 </main>
 
 <%@ include file="footer.jsp"%>
