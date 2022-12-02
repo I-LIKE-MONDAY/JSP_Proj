@@ -1,42 +1,46 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
 <%
-  // 현재 내가 열고 있는 파일 명 표시해주기 위해 getServletPath() 사용
-  String fileName = request.getServletPath(); // <- /sBoardDetail.jsp
-  fileName = fileName.substring(1); // 슬래쉬(/) 제거
-
-  String sBoardTitle = "";
-
-  switch (fileName) {
-    case "sBoardList.jsp":
-      sBoardTitle = "게시판 목록 페이지1";
-      break;
-
-    case "sBoardDetail.jsp":
-      sBoardTitle = "상세 글 확인 페이지";
-      break;
-
-    case "sBoardWrite.jsp":
-      sBoardTitle = "글 등록 페이지";
-      break;
-
-    case "sBoardUpdate.jsp":
-      sBoardTitle = "글 수정 페이지";
-      break;
-
-    case "sBoardDelete.jsp":
-      sBoardTitle = "글 삭제 페이지";
-      break;
-  }
+  String customerEmailSession = (String)session.getAttribute("customer_email");
+  String customerNicknameSession = (String)session.getAttribute("customer_nickname");
+  String customerComYn = (String)session.getAttribute("com_yn");
 %>
 <!DOCTYPE html>
 <html>
+<script>
+  $(document).ready(function () {
+    $('#my-page').on('click', function () {
+      let myPageSession = '<%=customerEmailSession%>';
+      if (myPageSession == null) {
+        alert('로그인 후 마이페이지 이용 가능');
+      }
+    });
+  });
+</script>
+
 <header class="bg-light">
   <div class="container">
     <ul class="list-unstyled list-group list-group-horizontal justify-content-end">
-      <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="login.jsp">로그인</a></li>
+      <%
+        String userEmail = null;
+        if (customerEmailSession != null) {
+          userEmail = customerEmailSession;
+        }
+      %>
+      <%
+        if(userEmail == null){
+      %>
+      <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="login.jsp" id="login-str">로그인</a></li>
       <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="join.jsp">회원가입</a></li>
-      <li class="me-3 mt-4"><a class="text-decoration-none text-black-50" href="join.jsp">마이페이지</a></li>
+      <%
+      } else {
+      %>
+      <li class="me-3 mt-4"><a class="text-decoration-none text-black-50" href="logout.jsp">로그아웃</a></li>
+      <li class="me-4 mt-4"><a class="text-decoration-none text-black-50" href="join.jsp">회원가입</a></li>
+      <%
+        }
+      %>
+      <li class="me-3 mt-4"><a class="text-decoration-none text-black-50" id = "my-page" href="myPage.jsp">마이페이지</a></li>
     </ul>
   </div>
   <div class="">
@@ -66,7 +70,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">지역별</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">서울</a>
+              <a class="dropdown-item" onclick="">서울</a>
               <a class="dropdown-item" href="#">경기</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">부산</a>

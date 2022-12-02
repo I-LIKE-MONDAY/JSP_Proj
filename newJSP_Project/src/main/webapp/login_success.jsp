@@ -9,8 +9,17 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<h2>로그인에 성공했습니다.</h2>
+<%
+    String customerEmailSession = (String)session.getAttribute("customer_email");
+    String customerNicknameSession = (String)session.getAttribute("customer_nickname");
+%>
+<h2>세션 설정이 성공했습니다</h2>
+<h2><%=customerNicknameSession%>님, 환영합니다.</h2>
+<h2><%=customerEmailSession%>님, 환영합니다.</h2>
 </body>
 </html>

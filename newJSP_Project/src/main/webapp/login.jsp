@@ -26,8 +26,6 @@
             $('#btn-back').on('click', function () {
                 history.back();
             });
-
-
         });
     </script>
 </head>

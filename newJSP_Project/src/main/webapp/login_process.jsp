@@ -35,12 +35,14 @@
         if(rs.next()){ // 로그인 성공(인증의 수단 session)
             customerEmail = rs.getString("customer_email");
             customerNickname = rs.getString("customer_nickname");
+            String customerComYn = rs.getString("com_yn");
 
             session.setAttribute("customer_email", customerEmail);
             session.setAttribute("customer_nickname", customerNickname);
+            session.setAttribute("com_yn", customerComYn);
 
 
-            response.sendRedirect("login_success.jsp"); // 페이지이동
+            response.sendRedirect("sBoardList.jsp"); // 페이지이동
 
         } else{ // 로그인 실패
             response.sendRedirect("login_fail.jsp"); // 실패 페이지
