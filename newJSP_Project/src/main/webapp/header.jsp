@@ -59,7 +59,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="join2.jsp">랭킹</a>
+            <a class="nav-link" href="rankingList.jsp">랭킹</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">이벤트</a>

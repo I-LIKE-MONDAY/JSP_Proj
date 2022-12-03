@@ -1,27 +1,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
 
-<%@ include file="sDbconn.jsp"%>
 
+<%@ include file="sDbconn.jsp"%>
 <%
     request.setCharacterEncoding("utf-8");
 
-    int boardIdx = Integer.parseInt(request.getParameter("boardIdx"));
-    String stayCost = request.getParameter("stayCost");
-//    String stayOption = request.getParameter("stayOption");
+    String boardIdx = request.getParameter("boardIdx");
+    int stayCost = Integer.parseInt(request.getParameter("stayCost"));
+    String stayOption = request.getParameter("stayOption");
     String stayContents = request.getParameter("stayContents");
 
-    Connection conn = null;
-    PreparedStatement pstmt = null;
+%>
 
-    String query = "UPDATE board SET stay_cost = ?, stay_contents = ?, update_dt = now() ";
-    query += "WHERE boardIdx = ? ";
+boardIdx : <%=boardIdx%>
+<br>
+stayCost : <%=stayCost%>
+<br>
+stayOption : <%=stayOption%>
+<br>
+stayContents : <%=stayContents%>
+
+<%
+    Connection conn = null;
+    conn = DriverManager.getConnection(url, uid, upw);
+
+    String query = "UPDATE board SET stay_cost = ?, stay_contents = ?, stay_option = ?, board_update_dt = now() ";
+    query += "WHERE board_idx = ? ";
+
+        PreparedStatement pstmt = null;
+
     try {
-        conn = DriverManager.getConnection(url, uid, upw);
         pstmt = conn.prepareStatement(query);
-        pstmt.setString(1, stayCost);
+        pstmt.setInt(1, stayCost);
         pstmt.setString(2, stayContents);
-        pstmt.setInt(3, boardIdx);
+        pstmt.setString(3, stayOption);
+        pstmt.setString(4, boardIdx);
         pstmt.executeUpdate();
     }
     catch (SQLException e) {

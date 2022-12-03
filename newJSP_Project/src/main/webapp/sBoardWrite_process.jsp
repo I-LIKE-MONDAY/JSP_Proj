@@ -7,7 +7,7 @@
   request.setCharacterEncoding("utf-8");
 
   String customerNickname = request.getParameter("customerNickname");
-  String stayCost = request.getParameter("stayCost");
+  int stayCost = Integer.parseInt(request.getParameter("stayCost"));
   String stayOption = request.getParameter("stayOption");
   String stayContents = request.getParameter("stayContents");
 
@@ -25,7 +25,7 @@
     pstmt = conn.prepareStatement(query);
     pstmt.setString(1, customerNickname);
     pstmt.setString(2, stayContents);
-    pstmt.setString(3, stayCost);
+    pstmt.setInt(3, stayCost);
     pstmt.setString(4, stayOption);
     pstmt.executeUpdate();
   } catch (SQLException e) {

@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>메인 페이지</title>
+    <title>랭킹 페이지</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css" integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
@@ -16,21 +16,6 @@
     <%@include file="sDbconn.jsp"%>
     <%-- 헤더, 푸터 파일 가져와서 사용 --%>
     <%@ include file="header.jsp"%>
-    <script>
-
-        $(document).ready(function () {
-            $('#write-page').on('click', function () {
-                let cusComYn = '<%=customerComYn%>';
-                if (cusComYn == 'N') {
-                    alert('사업자 회원만 글쓰기 가능');
-                } else if (cusComYn == 'Y') {
-                    location.href='sBoardWrite.jsp';
-                } else {
-                    alert('로그인 후 사업자 회원에 한해 글쓰기가 가능합니다');
-                }
-            });
-        });
-    </script>
     <style>
         th, td {
             vertical-align : middle;
@@ -39,6 +24,7 @@
 </head>
 
 <body class="bg-light">
+<%int rank = 0; %>
 <%
     Connection conn = null;
     java.sql.Statement stmt = null;
@@ -46,7 +32,7 @@
 
     String query = "SELECT board_idx, customer_nickname, stay_cost, stay_option, board_create_dt, hit_cnt FROM board ";
     query += "WHERE deleted_yn = 'N' ";
-    query += "ORDER BY hit_cnt DESC ";
+    query += "ORDER BY board_idx DESC ";
 %>
 <%
     String logMsg ="";
@@ -83,11 +69,23 @@
                             String stayOption = rs.getString("stay_option");
                             String boardCreateDt = rs.getString("board_create_dt");
                             int hitCnt = rs.getInt("hit_cnt");
-
+                            rank++;
                 %>
                 <thead>
-                <tr class="text-center">
-                    <td rowspan="4"><%=boardIdx%></td>
+
+                <tr class="text-center" >
+                    <%
+                        if(rank < 4){
+                    %>
+                    <td rowspan="4" style = 'background-size:110px; background-image: url("images/minirank2.png");background-repeat: no-repeat; background-position-x: center; background-position-y: center'><h2><%=rank%>위</h2></td>
+                    <%
+                    }
+                    else {
+                    %>
+                    <td rowspan="4"><h2><%=rank%>위</h2></td>
+                    <%
+                        }
+                    %>
                     <td rowspan="4"><a href="sBoardDetail.jsp?boardIdx=<%=boardIdx%>"><img src="images/logo.png" width="220" height="220"></a></td>
                     <td colspan="2"><a class="text-decoration-none text-black" href="sBoardDetail.jsp?boardIdx=<%=boardIdx%>"><h2><%=customerNickname%></h2></a></td>
                 </tr>
