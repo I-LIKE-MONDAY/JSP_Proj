@@ -8,21 +8,43 @@
 <head>
   <title>Title</title>
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css" integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  <%--  달력 제작 필요한 제이쿼리 링크 --%>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
   <script>
-    function input(){
-      let date1 = document.querySelector("#book-date").value;
-
+    function getFormatDate(date){
+      var year = date.getFullYear();              //yyyy
+      var month = (1 + date.getMonth());          //M
+      month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+      var day = date.getDate();                   //d
+      day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+      return  year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
     }
+
+    $(document).ready(function () {
+      $('#btn-end').on('click', function () {
+        const frm = $('#frm');
+        let today = new Date();
+        let offerdate = document.getElementById("book-date").value;
+        let minDate = getFormatDate(today);
+
+        if ($('#book-date').val() == '') {
+          alert('날짜를 선택해주세요');
+        }
+        else if(offerdate < minDate) {
+          alert('오늘 날짜 이전 날짜는 선택하실 수 없습니다.');
+        }
+        else {
+          frm.submit();
+        }
+      });
+
+      $('#btn-back').on('click', function () {
+        history.back();
+      });
+    });
   </script>
 </head>
 <body>
@@ -83,81 +105,46 @@
   }
 %>
 
-<form action="booking_process.jsp" method="post" id="frm">
-  <label for="customerNickname">숙소명:</label>
-  <%--  <input type="text" name="customerNickname" id="customerNickname"  value="<%=customerNickname%>">--%>
-  <h2>1박 금액 : <%=stayCost%></h2>
-  <p>최종 결제 금액 (V.A.T 포함) : <%=stayCost * 1.1%>원</p>
-  <p>예약일자 지정: <input type="date" id="book-date" name="bookDate"></p>
-  <button class="btn btn-primary" type="submit">예약완료</button>
-</form>
-<h2 class="text-center">예약</h2>
 
+
+
+
+<h2 class="text-center">예약</h2>
 <hr>
+<form action="booking_process.jsp" method="post" id="frm">
 <div class="container mt-5 mx-auto">
   <div class="row">
     <div class="col-sm-6 mx-auto">
       <div>
         <fieldset>
           <label class="form-label" for="customerNickname">숙소명</label>
-          <input class="form-control" type="text" id="customerNickname" value="<%=customerNickname%>" placeholder="숙소명" readonly>
+          <input class="form-control" type="text" id="customerNickname" name="customerNickname" value="<%=customerNickname%>" placeholder="숙소명" readonly>
         </fieldset>
       </div>
       <div class="form-group">
-        <fieldset>
-          <label class="form-label mt-4" for="readOnlyInput">Readonly input</label>
-          <input class="form-control" id="readOnlyInput" type="text" placeholder="Readonly input here..." readonly="">
-        </fieldset>
-      </div>
-      <div class="form-group has-success">
-        <label class="form-label mt-4" for="inputValid">Valid input</label>
-        <input type="text" value="correct value" class="form-control is-valid" id="inputValid">
-        <div class="valid-feedback">Success! You've done it.</div>
-      </div>
-      <div class="form-group has-danger">
-        <label class="form-label mt-4" for="inputInvalid">Invalid input</label>
-        <input type="text" value="wrong value" class="form-control is-invalid" id="inputInvalid">
-        <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
+        <label class="col-form-label mt-4" for="book-date">예약 날짜 선택</label>
+        <input type="date" class="form-control" id="book-date" name="bookDate" placeholder="Default input" id="inputDefault">
       </div>
       <div class="form-group">
-        <label class="col-form-label col-form-label-lg mt-4" for="inputLarge">Large input</label>
-        <input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" id="inputLarge">
+        <label class="col-form-label mt-3" for="book-date">예약자 닉네임</label>
+        <input type="text" class="form-control" placeholder="예약자 닉네임" value="<%=customerNicknameSession%>" readonly>
       </div>
       <div class="form-group">
-        <label class="col-form-label mt-4" for="inputDefault">Default input</label>
-        <input type="text" class="form-control" placeholder="Default input" id="inputDefault">
+        <label class="col-form-label mt-3" for="book-cost">결제 금액(V.A.T 포함)</label>
+        <input type="text" class="form-control" id="book-cost" name="stayCost" placeholder="결제 예정 금액" value="<%=Math.round(stayCost * 1.1)%>" readonly>
       </div>
-      <div class="form-group">
-        <label class="col-form-label col-form-label-sm mt-4" for="inputSmall">Small input</label>
-        <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" id="inputSmall">
+      <div class="d-grid">
+        <button type="button" class="form-floating my-3 btn btn-primary mt-4" id="btn-end">예약완료</button>
       </div>
-      <div class="form-group">
-        <label class="form-label mt-4">Input addons</label>
-        <div class="form-group">
-          <div class="input-group mb-3">
-            <span class="input-group-text">$</span>
-            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-            <span class="input-group-text">.00</span>
-          </div>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="button" id="button-addon2">Button</button>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label mt-4">Floating labels</label>
-        <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-        </div>
+      <div class="d-grid">
+        <button type="button" class="form-floating my-3 btn btn-light" id="btn-back">돌아가기</button>
       </div>
     </div>
   </div>
+  <br>
+  <br>
+  <br>
 </div>
+</form>
 </body>
 </html>
