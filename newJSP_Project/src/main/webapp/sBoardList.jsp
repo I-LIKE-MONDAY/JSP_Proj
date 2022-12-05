@@ -31,11 +31,11 @@
             });
         });
     </script>
-    <style>
-        th, td {
-            vertical-align : middle;
-        }
-    </style>
+<%--    <style>--%>
+<%--        th, td {--%>
+<%--            vertical-align : middle;--%>
+<%--        }--%>
+<%--    </style>--%>
 </head>
 
 <body class="bg-light">
@@ -46,7 +46,7 @@
 
     String query = "SELECT board_idx, customer_nickname, stay_cost, stay_option, board_create_dt, hit_cnt FROM board ";
     query += "WHERE deleted_yn = 'N' ";
-    query += "ORDER BY hit_cnt DESC ";
+    query += "ORDER BY board_idx DESC ";
 %>
 <%
     String logMsg ="";
@@ -59,16 +59,16 @@
 <main class="container mt-5">
     <div class="d-flex justify-content-end">
         <h4 class="text-muted me-5" id="welcome"><%=logMsg%></h4>
-        <button class="btn btn-secondary" type="button" id = "write-page">글쓰기</button>
+        <button class="btn btn-secondary mb-3" type="button" id = "write-page">글쓰기</button>
     </div>
     <div class="row">
         <div class="col-sm">
             <table class="table">
                 <colgroup>
-                    <col style="width: 30px" class="mb-5">
+                    <col style="width: 30px">
                     <col style="width: 130px">
-                    <col style="width: 50px">
-                    <col style="width: 170px">
+                    <col style="width: 60px">
+                    <col style="width: 150px">
                 </colgroup>
                 <%
                     try {
@@ -87,7 +87,7 @@
                 %>
                 <thead>
                 <tr class="text-center">
-                    <td rowspan="4"><%=boardIdx%></td>
+                    <td rowspan="4" style="vertical-align : middle"><%=boardIdx%></td>
                     <td rowspan="4"><a href="sBoardDetail.jsp?boardIdx=<%=boardIdx%>"><img src="images/logo.png" width="220" height="220"></a></td>
                     <td colspan="2"><a class="text-decoration-none text-black" href="sBoardDetail.jsp?boardIdx=<%=boardIdx%>"><h2><%=customerNickname%></h2></a></td>
                 </tr>
@@ -123,7 +123,7 @@
             </table>
         </div>
         <div>
-            <ul class="pagination pagination justify-content-center">
+            <ul class="pagination pagination-lg justify-content-center">
                 <li class="page-item disabled">
                     <a class="page-link" href="#">&laquo;</a>
                 </li>

@@ -17,9 +17,9 @@
     <%-- 헤더, 푸터 파일 가져와서 사용 --%>
     <%@ include file="header.jsp"%>
     <style>
-        th, td {
-            vertical-align : middle;
-        }
+        /*th, td, h2 {*/
+        /*    vertical-align : middle;*/
+        /*}*/
     </style>
 </head>
 
@@ -32,7 +32,7 @@
 
     String query = "SELECT board_idx, customer_nickname, stay_cost, stay_option, board_create_dt, hit_cnt FROM board ";
     query += "WHERE deleted_yn = 'N' ";
-    query += "ORDER BY board_idx DESC ";
+    query += "ORDER BY hit_cnt DESC ";
 %>
 <%
     String logMsg ="";
@@ -45,7 +45,7 @@
 <main class="container mt-5">
     <div class="d-flex justify-content-end">
         <h4 class="text-muted me-5" id="welcome"><%=logMsg%></h4>
-        <button class="btn btn-secondary" type="button" id = "write-page">글쓰기</button>
+        <button class="btn btn-secondary mb-3" type="button" id = "write-page">글쓰기</button>
     </div>
     <div class="row">
         <div class="col-sm">
@@ -53,8 +53,8 @@
                 <colgroup>
                     <col style="width: 30px" class="mb-5">
                     <col style="width: 130px">
-                    <col style="width: 50px">
-                    <col style="width: 170px">
+                    <col style="width: 60px">
+                    <col style="width: 150px">
                 </colgroup>
                 <%
                     try {
@@ -77,12 +77,12 @@
                     <%
                         if(rank < 4){
                     %>
-                    <td rowspan="4" style = 'background-size:110px; background-image: url("images/minirank2.png");background-repeat: no-repeat; background-position-x: center; background-position-y: center'><h2><%=rank%>위</h2></td>
+                    <td rowspan="4" style = 'vertical-align : middle; background-size:110px; background-image: url("images/minirank2.png");background-repeat: no-repeat; background-position-x: center; background-position-y: center'><h2><%=rank%>위</h2></td>
                     <%
                     }
                     else {
                     %>
-                    <td rowspan="4"><h2><%=rank%>위</h2></td>
+                    <td rowspan="4" style="vertical-align : middle"><h2><%=rank%>위</h2></td>
                     <%
                         }
                     %>
@@ -121,7 +121,7 @@
             </table>
         </div>
         <div>
-            <ul class="pagination pagination justify-content-center">
+            <ul class="pagination pagination-lg justify-content-center">
                 <li class="page-item disabled">
                     <a class="page-link" href="#">&laquo;</a>
                 </li>
